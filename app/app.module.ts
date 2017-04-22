@@ -1,6 +1,7 @@
 import {NgModule}  from '@angular/core'
 import {BrowserModule} from '@angular/platform-browser'
 import {RouterModule} from '@angular/router'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 
 import {
 	EventService,
@@ -20,7 +21,11 @@ import {Error404Component} from './errors/404.component'
 import {AuthService} from './user/auth.service'
 
 @NgModule({
-	imports: [BrowserModule,RouterModule.forRoot(appRoutes)],
+	imports: [
+	    BrowserModule,
+        RouterModule.forRoot(appRoutes),
+        FormsModule,
+        ReactiveFormsModule],
 	declarations: [
 		EventsAppComponent,
 		EventThumbnailComponent,
