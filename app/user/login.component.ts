@@ -1,5 +1,6 @@
 import {Component} from '@angular/core'
 import {AuthService} from './auth.service'
+import {Router} from '@angular/router'
 
 @Component({
     templateUrl: 'app/user/login.component.html',
@@ -8,12 +9,12 @@ import {AuthService} from './auth.service'
         `]
 })
 export class LoginComponent {
-    constructor(private authService: AuthService) {
+    constructor(private auth:AuthService,private router:Router){
 
     }
 
     login(formValues) {
-        this.authService.loginUser(formValues.userName, formValues.password)
-        console.log(formValues)
+        this.auth.loginUser(formValues.userName, formValues.password)
+        this.router.navigate(['events'])
     }
 }

@@ -1,30 +1,52 @@
 import { Component,OnInit } from '@angular/core'
-import { FormControl,FormGroup } from '@angular/forms'
+import { FormControl,FormGroup,Validators } from '@angular/forms'
 import { AuthService } from './auth.service'
 import {Router} from '@angular/router'
 @Component({
-    templateUrl: 'app/user/profile.component.html'
+    templateUrl: 'app/user/profile.component.html',
+    styles: [`
+        em {float:right; color:#E05C65; padding-left:10px;}    
+        .error input {background-color: #E05C65}
+        .error ::-webkit-input-placeholder{color:#999;}
+        .error ::-moz-placeholder {color:#999;}
+        .error :-moz-placeholder {color:#999;}
+        .error :-ms-input-placeholder {color:#999;}
+        `]
 
 })
-export class ProfileComponent implements OnInit{
-    profileForm:FormGroup
-
-    constructor(private auth:AuthService,private router:Router){
+export class ProfileComponent implements OnInit {
+    profileForm: FormGroup
+    private firstName: FormControl
+    private lastName: FormControl
+    constructor(private auth: AuthService, private router: Router) {
 
     }
-    ngOnInit(){
-        let firstName = new FormControl(this.auth.currentUser.firstName)
-        let lastName = new FormControl(this.auth.currentUser.lastName)
+
+    ngOnInit() {
+        this.firstName = new FormControl(this.auth.currentUser.firstName, Validators.required)
+        this.lastName = new FormControl(this.auth.currentUser.lastName, Validators.required)
         this.profileForm = new FormGroup({
-            firstName: firstName,
-            lastName: lastName
+            firstName: this.firstName,
+            lastName: this.lastName
         });
     }
 
-    cancel(){
+    cancel() {
         this.router.navigate(['events'])
     }
-    saveProfile(formValues){
-        this.auth.updateCurrentUser(formValues.firstName,formValues.lastName)
+
+    saveProfile(formValues) {
+        if (this.profileForm.valid) {
+            this.auth.updateCurrentUser(formValues.firstName, formValues.lastName)
+            this.router.navigate(['events'])
+        }
+
+    }
+
+    validateFirstName() {
+        return  this.firstName.valid || this.firstName.untouched
+    }
+    validateLastName() {
+        return this.lastName.valid || this.lastName.untouched
     }
 }

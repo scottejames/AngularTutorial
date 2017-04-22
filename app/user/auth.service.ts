@@ -4,6 +4,17 @@ import {IUser} from './user.model'
 @Injectable()
 export class AuthService {
     currentUser: IUser
+
+    // Hack to save having to login every time I test
+    constructor(){
+        this.currentUser = {
+            id: 1,
+            userName: 'scottejames',
+            firstName: 'Scott',
+            lastName: 'James'
+        }
+    }
+
     loginUser(userName: string, password: string) {
         this.currentUser = {
             id: 1,
