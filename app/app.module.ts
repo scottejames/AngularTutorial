@@ -3,68 +3,86 @@ import {BrowserModule} from '@angular/platform-browser'
 import {RouterModule} from '@angular/router'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 
+import {appRoutes} from './routes'
+
+import {Error404Component} from './errors/404.component'
+
+import {AuthService} from './user/auth.service'
+
+import {NavBarComponent} from './nav/navbar.component'
+import {EventsAppComponent} from './events-app.component'
+
 import {
-	EventService,
-	EventsListComponent,
-	EventThumbnailComponent,
-	EventDetailsComponent,
-	CreateEventComponent,
-	EventRouteActivator,
-	EventListResolver,
+    EventService,
+    EventsListComponent,
+    EventThumbnailComponent,
+    EventDetailsComponent,
+    CreateEventComponent,
+    EventRouteActivator,
+    EventListResolver,
     CreateSessionComponent,
-	SessionListComponent,
-	DurationPipe
+    SessionListComponent,
+    DurationPipe,
 
 } from './events/index'
 
-import {EventsAppComponent} from './events-app.component'
-import {NavBarComponent} from './nav/navbar.component'
-import {CollapsibleWellComponent} from './common/collapsible-well.component'
-import {ToastrService} from './common/toastr.service'
+import {
+    JQ_TOKEN,
+    ToastrService,
+    CollapsibleWellComponent,
+    SimpleModalComponent,
+    ModalTriggerDirective
+} from './common/index'
 
-import {appRoutes} from './routes'
-import {Error404Component} from './errors/404.component'
-import {AuthService} from './user/auth.service'
+
+declare let jQuery: Object;
 
 @NgModule({
-	imports: [
-	    BrowserModule,
+    imports: [
+        BrowserModule,
         RouterModule.forRoot(appRoutes),
         FormsModule,
         ReactiveFormsModule],
-	declarations: [
-		EventsAppComponent,
-		EventThumbnailComponent,
-		EventsListComponent,
-		NavBarComponent,
-		EventDetailsComponent,
-		CreateEventComponent,
-		Error404Component,
+    declarations: [
+        EventsAppComponent,
+        EventThumbnailComponent,
+        EventsListComponent,
+        NavBarComponent,
+        EventDetailsComponent,
+        CreateEventComponent,
+        Error404Component,
         CreateSessionComponent,
-		SessionListComponent,
-		CollapsibleWellComponent,
-		DurationPipe
-	],
-	providers: [
-		EventService,
-		ToastrService,
-		EventRouteActivator,
-		EventListResolver,
-		{
-			provide: 'canDeactiveCreateEvent',
-			useValue: checkDirtyState
-		},
-		AuthService
-		],
-	bootstrap: [EventsAppComponent]
+        SessionListComponent,
+        CollapsibleWellComponent,
+        DurationPipe,
+        SimpleModalComponent,
+        ModalTriggerDirective
+    ],
+    providers: [
+        EventService,
+        ToastrService,
+        EventRouteActivator,
+        EventListResolver,
+        {
+            provide: 'canDeactiveCreateEvent',
+            useValue: checkDirtyState
+        },
+        {
+            provide: JQ_TOKEN,
+            useValue: jQuery
+        },
+        AuthService
+    ],
+    bootstrap: [EventsAppComponent]
 })
 
-export class AppModule {}
+export class AppModule {
+}
 
-function checkDirtyState(component: CreateEventComponent){
-	if (component.isDirty){
-		return window.confirm("You have not saved, are you sure?")
-	} else {
-	return true
-	}
+function checkDirtyState(component: CreateEventComponent) {
+    if (component.isDirty) {
+        return window.confirm("You have not saved, are you sure?")
+    } else {
+        return true
+    }
 }
