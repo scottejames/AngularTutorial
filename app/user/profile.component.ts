@@ -43,7 +43,9 @@ export class ProfileComponent implements OnInit {
         }
 
     }
-
+    logOut(){
+        this.auth.logOutUser()
+    }
     validateFirstName() {
         return  this.firstName.valid || this.firstName.untouched
     }

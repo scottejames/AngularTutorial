@@ -14,7 +14,9 @@ export class AuthService {
             lastName: 'James'
         }
     }
-
+    logOutUser(){
+        this.currentUser = null;
+    }
     loginUser(userName: string, password: string) {
         this.currentUser = {
             id: 1,
